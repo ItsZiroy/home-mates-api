@@ -7,7 +7,8 @@
   "description": "A typescript adapter for our home-mate project",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "npx @openapitools/openapi-generator-cli generate -i ./openapi.json -o . -g typescript-axios --ignore-file-override"
   },
   "repository": {
     "type": "git",
