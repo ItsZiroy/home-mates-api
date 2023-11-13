@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "axios": "^1.6.1"
+  },
+  "name": "home-mates-api",
+  "version": "1.0.0",
+  "description": "A typescript adapter for our home-mate project",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItsZiroy/home-mates-api.git"
+  },
+  "author": "ItsZiroy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ItsZiroy/home-mates-api/issues"
+  },
+  "homepage": "https://github.com/ItsZiroy/home-mates-api#readme"
+}
