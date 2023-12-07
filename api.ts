@@ -21,8 +21,39 @@ import globalAxios from 'axios';
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
+/**
+ * 
+ * @export
+ * @interface CleaningPlan
+ */
+export interface CleaningPlan {
+    /**
+     * 
+     * @type {number}
+     * @memberof CleaningPlan
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CleaningPlan
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CleaningPlan
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {Group}
+     * @memberof CleaningPlan
+     */
+    'groups'?: Group;
+}
 /**
  * 
  * @export
@@ -59,6 +90,85 @@ export interface CreateGroupDto {
      * @memberof CreateGroupDto
      */
     'zip'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateItemDto
+ */
+export interface CreateItemDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateItemDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateItemDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateItemDto
+     */
+    'quantity'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateItemDto
+     */
+    'quantity_type'?: CreateItemDtoQuantityTypeEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateItemDto
+     */
+    'done'?: boolean;
+}
+
+export const CreateItemDtoQuantityTypeEnum = {
+    Kilogram: 'KILOGRAM',
+    Gram: 'GRAM',
+    Liter: 'LITER',
+    Milliliter: 'MILLILITER',
+    Piece: 'PIECE'
+} as const;
+
+export type CreateItemDtoQuantityTypeEnum = typeof CreateItemDtoQuantityTypeEnum[keyof typeof CreateItemDtoQuantityTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface Finance
+ */
+export interface Finance {
+    /**
+     * 
+     * @type {number}
+     * @memberof Finance
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Finance
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Finance
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {Group}
+     * @memberof Finance
+     */
+    'groups'?: Group;
 }
 /**
  * 
@@ -114,6 +224,73 @@ export interface Group {
      * @memberof Group
      */
     'postalCode'?: string;
+    /**
+     * 
+     * @type {ShoppingList}
+     * @memberof Group
+     */
+    'shoppingList'?: ShoppingList;
+}
+/**
+ * 
+ * @export
+ * @interface Item
+ */
+export interface Item {
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    'quantity'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    'quantityType'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    'done'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    'itemscol'?: string;
 }
 /**
  * 
@@ -133,6 +310,55 @@ export interface LoginForm {
      * @memberof LoginForm
      */
     'password'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ModelFile
+ */
+export interface ModelFile {
+    /**
+     * 
+     * @type {number}
+     * @memberof ModelFile
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModelFile
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModelFile
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModelFile
+     */
+    'originalName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModelFile
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModelFile
+     */
+    'path'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModelFile
+     */
+    'type'?: string;
 }
 /**
  * 
@@ -164,6 +390,104 @@ export interface ModifyUserDto {
      * @memberof ModifyUserDto
      */
     'password'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ShoppingList
+ */
+export interface ShoppingList {
+    /**
+     * 
+     * @type {number}
+     * @memberof ShoppingList
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ShoppingList
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ShoppingList
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {Group}
+     * @memberof ShoppingList
+     */
+    'group'?: Group;
+    /**
+     * 
+     * @type {Set<Item>}
+     * @memberof ShoppingList
+     */
+    'items'?: Set<Item>;
+}
+/**
+ * 
+ * @export
+ * @interface Task
+ */
+export interface Task {
+    /**
+     * 
+     * @type {number}
+     * @memberof Task
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Task
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Task
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Task
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Task
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Task
+     */
+    'recurrenceRule'?: string;
+    /**
+     * 
+     * @type {CleaningPlan}
+     * @memberof Task
+     */
+    'cleaningPlan'?: CleaningPlan;
+    /**
+     * 
+     * @type {string}
+     * @memberof Task
+     */
+    'done'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Task
+     */
+    'currentOrderNumber'?: number;
 }
 /**
  * 
@@ -280,7 +604,9 @@ export const AuthApiFp = function(configuration?: Configuration) {
          */
         async login(loginForm: LoginForm, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.login(loginForm, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['AuthApi.login']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
 };
@@ -320,6 +646,649 @@ export class AuthApi extends BaseAPI {
      */
     public login(loginForm: LoginForm, options?: AxiosRequestConfig) {
         return AuthApiFp(this.configuration).login(loginForm, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * FileControllerApi - axios parameter creator
+ * @export
+ */
+export const FileControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createFile: async (groupId: string, modelFile: ModelFile, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('createFile', 'groupId', groupId)
+            // verify required parameter 'modelFile' is not null or undefined
+            assertParamExists('createFile', 'modelFile', modelFile)
+            const localVarPath = `/groups/{group_id}/files`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(modelFile, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFile: async (groupId: string, modelFile: ModelFile, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('deleteFile', 'groupId', groupId)
+            // verify required parameter 'modelFile' is not null or undefined
+            assertParamExists('deleteFile', 'modelFile', modelFile)
+            const localVarPath = `/groups/{group_id}/files`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(modelFile, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllFiles: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getAllFiles', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/files`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFile: async (groupId: string, modelFile: ModelFile, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('updateFile', 'groupId', groupId)
+            // verify required parameter 'modelFile' is not null or undefined
+            assertParamExists('updateFile', 'modelFile', modelFile)
+            const localVarPath = `/groups/{group_id}/files`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(modelFile, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * FileControllerApi - functional programming interface
+ * @export
+ */
+export const FileControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FileControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createFile(groupId: string, modelFile: ModelFile, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createFile(groupId, modelFile, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['FileControllerApi.createFile']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteFile(groupId: string, modelFile: ModelFile, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteFile(groupId, modelFile, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['FileControllerApi.deleteFile']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllFiles(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<any>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllFiles(groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['FileControllerApi.getAllFiles']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateFile(groupId: string, modelFile: ModelFile, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFile(groupId, modelFile, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['FileControllerApi.updateFile']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * FileControllerApi - factory interface
+ * @export
+ */
+export const FileControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FileControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createFile(groupId: string, modelFile: ModelFile, options?: any): AxiosPromise<any> {
+            return localVarFp.createFile(groupId, modelFile, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFile(groupId: string, modelFile: ModelFile, options?: any): AxiosPromise<string> {
+            return localVarFp.deleteFile(groupId, modelFile, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllFiles(groupId: string, options?: any): AxiosPromise<Array<any>> {
+            return localVarFp.getAllFiles(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {ModelFile} modelFile 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFile(groupId: string, modelFile: ModelFile, options?: any): AxiosPromise<any> {
+            return localVarFp.updateFile(groupId, modelFile, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * FileControllerApi - object-oriented interface
+ * @export
+ * @class FileControllerApi
+ * @extends {BaseAPI}
+ */
+export class FileControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {ModelFile} modelFile 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileControllerApi
+     */
+    public createFile(groupId: string, modelFile: ModelFile, options?: AxiosRequestConfig) {
+        return FileControllerApiFp(this.configuration).createFile(groupId, modelFile, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {ModelFile} modelFile 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileControllerApi
+     */
+    public deleteFile(groupId: string, modelFile: ModelFile, options?: AxiosRequestConfig) {
+        return FileControllerApiFp(this.configuration).deleteFile(groupId, modelFile, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileControllerApi
+     */
+    public getAllFiles(groupId: string, options?: AxiosRequestConfig) {
+        return FileControllerApiFp(this.configuration).getAllFiles(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {ModelFile} modelFile 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileControllerApi
+     */
+    public updateFile(groupId: string, modelFile: ModelFile, options?: AxiosRequestConfig) {
+        return FileControllerApiFp(this.configuration).updateFile(groupId, modelFile, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * FinanceControllerApi - axios parameter creator
+ * @export
+ */
+export const FinanceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Finance} finance 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createFinance: async (groupId: string, finance: Finance, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('createFinance', 'groupId', groupId)
+            // verify required parameter 'finance' is not null or undefined
+            assertParamExists('createFinance', 'finance', finance)
+            const localVarPath = `/groups/{group_id}/finances`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(finance, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFinance: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('deleteFinance', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/finances`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllFinances: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getAllFinances', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/finances`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Finance} finance 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFinance: async (groupId: string, finance: Finance, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('updateFinance', 'groupId', groupId)
+            // verify required parameter 'finance' is not null or undefined
+            assertParamExists('updateFinance', 'finance', finance)
+            const localVarPath = `/groups/{group_id}/finances`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(finance, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * FinanceControllerApi - functional programming interface
+ * @export
+ */
+export const FinanceControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = FinanceControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Finance} finance 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createFinance(groupId: string, finance: Finance, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Finance>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createFinance(groupId, finance, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['FinanceControllerApi.createFinance']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteFinance(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteFinance(groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['FinanceControllerApi.deleteFinance']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllFinances(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Finance>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllFinances(groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['FinanceControllerApi.getAllFinances']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Finance} finance 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateFinance(groupId: string, finance: Finance, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Finance>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFinance(groupId, finance, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['FinanceControllerApi.updateFinance']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * FinanceControllerApi - factory interface
+ * @export
+ */
+export const FinanceControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = FinanceControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Finance} finance 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createFinance(groupId: string, finance: Finance, options?: any): AxiosPromise<Finance> {
+            return localVarFp.createFinance(groupId, finance, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFinance(groupId: string, options?: any): AxiosPromise<string> {
+            return localVarFp.deleteFinance(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllFinances(groupId: string, options?: any): AxiosPromise<Array<Finance>> {
+            return localVarFp.getAllFinances(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Finance} finance 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFinance(groupId: string, finance: Finance, options?: any): AxiosPromise<Finance> {
+            return localVarFp.updateFinance(groupId, finance, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * FinanceControllerApi - object-oriented interface
+ * @export
+ * @class FinanceControllerApi
+ * @extends {BaseAPI}
+ */
+export class FinanceControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {Finance} finance 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinanceControllerApi
+     */
+    public createFinance(groupId: string, finance: Finance, options?: AxiosRequestConfig) {
+        return FinanceControllerApiFp(this.configuration).createFinance(groupId, finance, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinanceControllerApi
+     */
+    public deleteFinance(groupId: string, options?: AxiosRequestConfig) {
+        return FinanceControllerApiFp(this.configuration).deleteFinance(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinanceControllerApi
+     */
+    public getAllFinances(groupId: string, options?: AxiosRequestConfig) {
+        return FinanceControllerApiFp(this.configuration).getAllFinances(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {Finance} finance 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FinanceControllerApi
+     */
+    public updateFinance(groupId: string, finance: Finance, options?: AxiosRequestConfig) {
+        return FinanceControllerApiFp(this.configuration).updateFinance(groupId, finance, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -425,7 +1394,9 @@ export const GroupApiFp = function(configuration?: Configuration) {
          */
         async createGroup(createGroupDto: CreateGroupDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Group>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createGroup(createGroupDto, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['GroupApi.createGroup']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * 
@@ -435,7 +1406,9 @@ export const GroupApiFp = function(configuration?: Configuration) {
          */
         async getGroup(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Group>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getGroup(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['GroupApi.getGroup']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
 };
@@ -495,6 +1468,805 @@ export class GroupApi extends BaseAPI {
      */
     public getGroup(id: string, options?: AxiosRequestConfig) {
         return GroupApiFp(this.configuration).getGroup(id, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * ItemControllerApi - axios parameter creator
+ * @export
+ */
+export const ItemControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {Group} groupId 
+         * @param {CreateItemDto} createItemDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createItem: async (groupId: Group, createItemDto: CreateItemDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('createItem', 'groupId', groupId)
+            // verify required parameter 'createItemDto' is not null or undefined
+            assertParamExists('createItem', 'createItemDto', createItemDto)
+            const localVarPath = `/groups/{group_id}/shopping/items`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createItemDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteItem: async (id: number, groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteItem', 'id', id)
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('deleteItem', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/shopping/items/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Group} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItem: async (id: string, groupId: Group, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getItem', 'id', id)
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getItem', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/shopping/items/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Group} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItems: async (groupId: Group, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getItems', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/shopping/items`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Item} item 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateItem: async (groupId: string, item: Item, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('updateItem', 'groupId', groupId)
+            // verify required parameter 'item' is not null or undefined
+            assertParamExists('updateItem', 'item', item)
+            const localVarPath = `/groups/{group_id}/shopping/items`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(item, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ItemControllerApi - functional programming interface
+ * @export
+ */
+export const ItemControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ItemControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {Group} groupId 
+         * @param {CreateItemDto} createItemDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createItem(groupId: Group, createItemDto: CreateItemDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createItem(groupId, createItemDto, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ItemControllerApi.createItem']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteItem(id: number, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItem(id, groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ItemControllerApi.deleteItem']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Group} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getItem(id: string, groupId: Group, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItem(id, groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ItemControllerApi.getItem']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {Group} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getItems(groupId: Group, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Item>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getItems(groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ItemControllerApi.getItems']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Item} item 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateItem(groupId: string, item: Item, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateItem(groupId, item, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ItemControllerApi.updateItem']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * ItemControllerApi - factory interface
+ * @export
+ */
+export const ItemControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ItemControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {Group} groupId 
+         * @param {CreateItemDto} createItemDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createItem(groupId: Group, createItemDto: CreateItemDto, options?: any): AxiosPromise<Item> {
+            return localVarFp.createItem(groupId, createItemDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteItem(id: number, groupId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteItem(id, groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Group} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItem(id: string, groupId: Group, options?: any): AxiosPromise<Item> {
+            return localVarFp.getItem(id, groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {Group} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getItems(groupId: Group, options?: any): AxiosPromise<Array<Item>> {
+            return localVarFp.getItems(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Item} item 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateItem(groupId: string, item: Item, options?: any): AxiosPromise<Item> {
+            return localVarFp.updateItem(groupId, item, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ItemControllerApi - object-oriented interface
+ * @export
+ * @class ItemControllerApi
+ * @extends {BaseAPI}
+ */
+export class ItemControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {Group} groupId 
+     * @param {CreateItemDto} createItemDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ItemControllerApi
+     */
+    public createItem(groupId: Group, createItemDto: CreateItemDto, options?: AxiosRequestConfig) {
+        return ItemControllerApiFp(this.configuration).createItem(groupId, createItemDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ItemControllerApi
+     */
+    public deleteItem(id: number, groupId: string, options?: AxiosRequestConfig) {
+        return ItemControllerApiFp(this.configuration).deleteItem(id, groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {Group} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ItemControllerApi
+     */
+    public getItem(id: string, groupId: Group, options?: AxiosRequestConfig) {
+        return ItemControllerApiFp(this.configuration).getItem(id, groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {Group} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ItemControllerApi
+     */
+    public getItems(groupId: Group, options?: AxiosRequestConfig) {
+        return ItemControllerApiFp(this.configuration).getItems(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {Item} item 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ItemControllerApi
+     */
+    public updateItem(groupId: string, item: Item, options?: AxiosRequestConfig) {
+        return ItemControllerApiFp(this.configuration).updateItem(groupId, item, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TaskControllerApi - axios parameter creator
+ * @export
+ */
+export const TaskControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Task} task 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTask: async (groupId: string, task: Task, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('createTask', 'groupId', groupId)
+            // verify required parameter 'task' is not null or undefined
+            assertParamExists('createTask', 'task', task)
+            const localVarPath = `/groups/{group_id}/tasks`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(task, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTask: async (id: number, groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteTask', 'id', id)
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('deleteTask', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/tasks/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllTasks: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getAllTasks', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/tasks`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTaskById: async (id: number, groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getTaskById', 'id', id)
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getTaskById', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/tasks/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {Task} task 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateTask: async (id: number, groupId: string, task: Task, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateTask', 'id', id)
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('updateTask', 'groupId', groupId)
+            // verify required parameter 'task' is not null or undefined
+            assertParamExists('updateTask', 'task', task)
+            const localVarPath = `/groups/{group_id}/tasks/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(task, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TaskControllerApi - functional programming interface
+ * @export
+ */
+export const TaskControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TaskControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Task} task 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createTask(groupId: string, task: Task, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Task>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createTask(groupId, task, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TaskControllerApi.createTask']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteTask(id: number, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTask(id, groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TaskControllerApi.deleteTask']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllTasks(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Task>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllTasks(groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TaskControllerApi.getAllTasks']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTaskById(id: number, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Task>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTaskById(id, groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TaskControllerApi.getTaskById']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {Task} task 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateTask(id: number, groupId: string, task: Task, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Task>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateTask(id, groupId, task, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TaskControllerApi.updateTask']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TaskControllerApi - factory interface
+ * @export
+ */
+export const TaskControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TaskControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {Task} task 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTask(groupId: string, task: Task, options?: any): AxiosPromise<Task> {
+            return localVarFp.createTask(groupId, task, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTask(id: number, groupId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteTask(id, groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllTasks(groupId: string, options?: any): AxiosPromise<Array<Task>> {
+            return localVarFp.getAllTasks(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTaskById(id: number, groupId: string, options?: any): AxiosPromise<Task> {
+            return localVarFp.getTaskById(id, groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {Task} task 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateTask(id: number, groupId: string, task: Task, options?: any): AxiosPromise<Task> {
+            return localVarFp.updateTask(id, groupId, task, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TaskControllerApi - object-oriented interface
+ * @export
+ * @class TaskControllerApi
+ * @extends {BaseAPI}
+ */
+export class TaskControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {Task} task 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskControllerApi
+     */
+    public createTask(groupId: string, task: Task, options?: AxiosRequestConfig) {
+        return TaskControllerApiFp(this.configuration).createTask(groupId, task, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskControllerApi
+     */
+    public deleteTask(id: number, groupId: string, options?: AxiosRequestConfig) {
+        return TaskControllerApiFp(this.configuration).deleteTask(id, groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskControllerApi
+     */
+    public getAllTasks(groupId: string, options?: AxiosRequestConfig) {
+        return TaskControllerApiFp(this.configuration).getAllTasks(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskControllerApi
+     */
+    public getTaskById(id: number, groupId: string, options?: AxiosRequestConfig) {
+        return TaskControllerApiFp(this.configuration).getTaskById(id, groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {string} groupId 
+     * @param {Task} task 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskControllerApi
+     */
+    public updateTask(id: number, groupId: string, task: Task, options?: AxiosRequestConfig) {
+        return TaskControllerApiFp(this.configuration).updateTask(id, groupId, task, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -595,7 +2367,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async getUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUser(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserApi.getUser']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * 
@@ -605,7 +2379,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          */
         async modifyUser(modifyUserDto: ModifyUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.modifyUser(modifyUserDto, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserApi.modifyUser']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
 };
