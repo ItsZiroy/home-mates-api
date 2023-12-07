@@ -19,7 +19,7 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = "http://home-mates.teckdigital.de".replace(/\/+$/, "");
+export const BASE_PATH = "https://home-mates.teckdigital.de".replace(/\/+$/, "");
 
 /**
  *
