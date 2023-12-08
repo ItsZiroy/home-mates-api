@@ -1572,19 +1572,19 @@ export class GroupApi extends BaseAPI {
 
 
 /**
- * ItemControllerApi - axios parameter creator
+ * ItemApi - axios parameter creator
  * @export
  */
-export const ItemControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const ItemApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {CreateItemDto} createItemDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createItem: async (groupId: Group, createItemDto: CreateItemDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createItem: async (groupId: string, createItemDto: CreateItemDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'groupId' is not null or undefined
             assertParamExists('createItem', 'groupId', groupId)
             // verify required parameter 'createItemDto' is not null or undefined
@@ -1601,6 +1601,10 @@ export const ItemControllerApiAxiosParamCreator = function (configuration?: Conf
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -1642,6 +1646,10 @@ export const ItemControllerApiAxiosParamCreator = function (configuration?: Conf
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1656,11 +1664,11 @@ export const ItemControllerApiAxiosParamCreator = function (configuration?: Conf
         /**
          * 
          * @param {string} id 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItem: async (id: string, groupId: Group, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItem: async (id: string, groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getItem', 'id', id)
             // verify required parameter 'groupId' is not null or undefined
@@ -1679,6 +1687,10 @@ export const ItemControllerApiAxiosParamCreator = function (configuration?: Conf
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1692,11 +1704,11 @@ export const ItemControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItems: async (groupId: Group, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getItems: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'groupId' is not null or undefined
             assertParamExists('getItems', 'groupId', groupId)
             const localVarPath = `/groups/{group_id}/shopping/items`
@@ -1711,6 +1723,10 @@ export const ItemControllerApiAxiosParamCreator = function (configuration?: Conf
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -1748,6 +1764,10 @@ export const ItemControllerApiAxiosParamCreator = function (configuration?: Conf
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -1766,23 +1786,23 @@ export const ItemControllerApiAxiosParamCreator = function (configuration?: Conf
 };
 
 /**
- * ItemControllerApi - functional programming interface
+ * ItemApi - functional programming interface
  * @export
  */
-export const ItemControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ItemControllerApiAxiosParamCreator(configuration)
+export const ItemApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ItemApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {CreateItemDto} createItemDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createItem(groupId: Group, createItemDto: CreateItemDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
+        async createItem(groupId: string, createItemDto: CreateItemDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createItem(groupId, createItemDto, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ItemControllerApi.createItem']?.[index]?.url;
+            const operationBasePath = operationServerMap['ItemApi.createItem']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -1795,32 +1815,32 @@ export const ItemControllerApiFp = function(configuration?: Configuration) {
         async deleteItem(id: number, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteItem(id, groupId, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ItemControllerApi.deleteItem']?.[index]?.url;
+            const operationBasePath = operationServerMap['ItemApi.deleteItem']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * 
          * @param {string} id 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItem(id: string, groupId: Group, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
+        async getItem(id: string, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getItem(id, groupId, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ItemControllerApi.getItem']?.[index]?.url;
+            const operationBasePath = operationServerMap['ItemApi.getItem']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
          * 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItems(groupId: Group, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Item>>> {
+        async getItems(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Item>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getItems(groupId, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ItemControllerApi.getItems']?.[index]?.url;
+            const operationBasePath = operationServerMap['ItemApi.getItems']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -1833,27 +1853,27 @@ export const ItemControllerApiFp = function(configuration?: Configuration) {
         async updateItem(groupId: string, item: Item, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateItem(groupId, item, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['ItemControllerApi.updateItem']?.[index]?.url;
+            const operationBasePath = operationServerMap['ItemApi.updateItem']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
 };
 
 /**
- * ItemControllerApi - factory interface
+ * ItemApi - factory interface
  * @export
  */
-export const ItemControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ItemControllerApiFp(configuration)
+export const ItemApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ItemApiFp(configuration)
     return {
         /**
          * 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {CreateItemDto} createItemDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createItem(groupId: Group, createItemDto: CreateItemDto, options?: any): AxiosPromise<Item> {
+        createItem(groupId: string, createItemDto: CreateItemDto, options?: any): AxiosPromise<Item> {
             return localVarFp.createItem(groupId, createItemDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1869,20 +1889,20 @@ export const ItemControllerApiFactory = function (configuration?: Configuration,
         /**
          * 
          * @param {string} id 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItem(id: string, groupId: Group, options?: any): AxiosPromise<Item> {
+        getItem(id: string, groupId: string, options?: any): AxiosPromise<Item> {
             return localVarFp.getItem(id, groupId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {Group} groupId 
+         * @param {string} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItems(groupId: Group, options?: any): AxiosPromise<Array<Item>> {
+        getItems(groupId: string, options?: any): AxiosPromise<Array<Item>> {
             return localVarFp.getItems(groupId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1899,22 +1919,22 @@ export const ItemControllerApiFactory = function (configuration?: Configuration,
 };
 
 /**
- * ItemControllerApi - object-oriented interface
+ * ItemApi - object-oriented interface
  * @export
- * @class ItemControllerApi
+ * @class ItemApi
  * @extends {BaseAPI}
  */
-export class ItemControllerApi extends BaseAPI {
+export class ItemApi extends BaseAPI {
     /**
      * 
-     * @param {Group} groupId 
+     * @param {string} groupId 
      * @param {CreateItemDto} createItemDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ItemControllerApi
+     * @memberof ItemApi
      */
-    public createItem(groupId: Group, createItemDto: CreateItemDto, options?: AxiosRequestConfig) {
-        return ItemControllerApiFp(this.configuration).createItem(groupId, createItemDto, options).then((request) => request(this.axios, this.basePath));
+    public createItem(groupId: string, createItemDto: CreateItemDto, options?: AxiosRequestConfig) {
+        return ItemApiFp(this.configuration).createItem(groupId, createItemDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1923,33 +1943,33 @@ export class ItemControllerApi extends BaseAPI {
      * @param {string} groupId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ItemControllerApi
+     * @memberof ItemApi
      */
     public deleteItem(id: number, groupId: string, options?: AxiosRequestConfig) {
-        return ItemControllerApiFp(this.configuration).deleteItem(id, groupId, options).then((request) => request(this.axios, this.basePath));
+        return ItemApiFp(this.configuration).deleteItem(id, groupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {string} id 
-     * @param {Group} groupId 
+     * @param {string} groupId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ItemControllerApi
+     * @memberof ItemApi
      */
-    public getItem(id: string, groupId: Group, options?: AxiosRequestConfig) {
-        return ItemControllerApiFp(this.configuration).getItem(id, groupId, options).then((request) => request(this.axios, this.basePath));
+    public getItem(id: string, groupId: string, options?: AxiosRequestConfig) {
+        return ItemApiFp(this.configuration).getItem(id, groupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {Group} groupId 
+     * @param {string} groupId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ItemControllerApi
+     * @memberof ItemApi
      */
-    public getItems(groupId: Group, options?: AxiosRequestConfig) {
-        return ItemControllerApiFp(this.configuration).getItems(groupId, options).then((request) => request(this.axios, this.basePath));
+    public getItems(groupId: string, options?: AxiosRequestConfig) {
+        return ItemApiFp(this.configuration).getItems(groupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1958,10 +1978,10 @@ export class ItemControllerApi extends BaseAPI {
      * @param {Item} item 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ItemControllerApi
+     * @memberof ItemApi
      */
     public updateItem(groupId: string, item: Item, options?: AxiosRequestConfig) {
-        return ItemControllerApiFp(this.configuration).updateItem(groupId, item, options).then((request) => request(this.axios, this.basePath));
+        return ItemApiFp(this.configuration).updateItem(groupId, item, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
