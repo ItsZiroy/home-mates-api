@@ -26,6 +26,25 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface AddUserToGroupForm
+ */
+export interface AddUserToGroupForm {
+    /**
+     * 
+     * @type {number}
+     * @memberof AddUserToGroupForm
+     */
+    'user_id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AddUserToGroupForm
+     */
+    'group_id'?: number;
+}
+/**
+ * 
+ * @export
  * @interface CleaningPlan
  */
 export interface CleaningPlan {
@@ -732,7 +751,7 @@ export interface UserDto {
      * @type {GroupDto}
      * @memberof UserDto
      */
-    'group': GroupDto;
+    'group'?: GroupDto;
 }
 
 /**
@@ -2557,6 +2576,45 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
     return {
         /**
          * 
+         * @param {AddUserToGroupForm} addUserToGroupForm 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addUserToGroup: async (addUserToGroupForm: AddUserToGroupForm, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'addUserToGroupForm' is not null or undefined
+            assertParamExists('addUserToGroup', 'addUserToGroupForm', addUserToGroupForm)
+            const localVarPath = `/user/group`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(addUserToGroupForm, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2639,6 +2697,18 @@ export const UserApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {AddUserToGroupForm} addUserToGroupForm 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addUserToGroup(addUserToGroupForm: AddUserToGroupForm, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addUserToGroup(addUserToGroupForm, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserApi.addUserToGroup']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2672,6 +2742,15 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
     return {
         /**
          * 
+         * @param {AddUserToGroupForm} addUserToGroupForm 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addUserToGroup(addUserToGroupForm: AddUserToGroupForm, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.addUserToGroup(addUserToGroupForm, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -2697,6 +2776,17 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class UserApi extends BaseAPI {
+    /**
+     * 
+     * @param {AddUserToGroupForm} addUserToGroupForm 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public addUserToGroup(addUserToGroupForm: AddUserToGroupForm, options?: AxiosRequestConfig) {
+        return UserApiFp(this.configuration).addUserToGroup(addUserToGroupForm, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.
