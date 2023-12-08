@@ -114,13 +114,13 @@ export interface CreateItemDto {
      * @type {number}
      * @memberof CreateItemDto
      */
-    'quantity'?: number;
+    'quantity': number;
     /**
      * 
      * @type {string}
      * @memberof CreateItemDto
      */
-    'quantity_type'?: CreateItemDtoQuantityTypeEnum;
+    'quantity_type': CreateItemDtoQuantityTypeEnum;
     /**
      * 
      * @type {boolean}
@@ -383,6 +383,61 @@ export interface Item {
      * @memberof Item
      */
     'itemscol'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ItemDto
+ */
+export interface ItemDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof ItemDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemDto
+     */
+    'createTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemDto
+     */
+    'updateTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemDto
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ItemDto
+     */
+    'quantity': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemDto
+     */
+    'quantityType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemDto
+     */
+    'done': string;
 }
 /**
  * 
@@ -1903,7 +1958,7 @@ export const ItemApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createItem(groupId: string, createItemDto: CreateItemDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
+        async createItem(groupId: string, createItemDto: CreateItemDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ItemDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createItem(groupId, createItemDto, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ItemApi.createItem']?.[index]?.url;
@@ -1929,7 +1984,7 @@ export const ItemApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItem(id: string, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Item>> {
+        async getItem(id: string, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ItemDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getItem(id, groupId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ItemApi.getItem']?.[index]?.url;
@@ -1941,7 +1996,7 @@ export const ItemApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getItems(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Item>>> {
+        async getItems(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ItemDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getItems(groupId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['ItemApi.getItems']?.[index]?.url;
@@ -1977,7 +2032,7 @@ export const ItemApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createItem(groupId: string, createItemDto: CreateItemDto, options?: any): AxiosPromise<Item> {
+        createItem(groupId: string, createItemDto: CreateItemDto, options?: any): AxiosPromise<ItemDto> {
             return localVarFp.createItem(groupId, createItemDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1997,7 +2052,7 @@ export const ItemApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItem(id: string, groupId: string, options?: any): AxiosPromise<Item> {
+        getItem(id: string, groupId: string, options?: any): AxiosPromise<ItemDto> {
             return localVarFp.getItem(id, groupId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2006,7 +2061,7 @@ export const ItemApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getItems(groupId: string, options?: any): AxiosPromise<Array<Item>> {
+        getItems(groupId: string, options?: any): AxiosPromise<Array<ItemDto>> {
             return localVarFp.getItems(groupId, options).then((request) => request(axios, basePath));
         },
         /**
