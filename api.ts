@@ -239,6 +239,12 @@ export interface Group {
     'color'?: string;
     /**
      * 
+     * @type {User}
+     * @memberof Group
+     */
+    'owner'?: User;
+    /**
+     * 
      * @type {string}
      * @memberof Group
      */
@@ -261,6 +267,61 @@ export interface Group {
      * @memberof Group
      */
     'shoppingList'?: ShoppingList;
+}
+/**
+ * 
+ * @export
+ * @interface GroupDto
+ */
+export interface GroupDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof GroupDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupDto
+     */
+    'createTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupDto
+     */
+    'updateTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupDto
+     */
+    'color': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupDto
+     */
+    'city': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupDto
+     */
+    'street': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupDto
+     */
+    'postalCode': string;
 }
 /**
  * 
@@ -448,12 +509,6 @@ export interface ShoppingList {
     'updateTime'?: string;
     /**
      * 
-     * @type {Group}
-     * @memberof ShoppingList
-     */
-    'group'?: Group;
-    /**
-     * 
      * @type {Set<Item>}
      * @memberof ShoppingList
      */
@@ -574,6 +629,55 @@ export interface User {
      * @memberof User
      */
     'group'?: Group;
+}
+/**
+ * 
+ * @export
+ * @interface UserDto
+ */
+export interface UserDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    'createTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    'updateTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    'firstName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    'lastName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    'email': string;
+    /**
+     * 
+     * @type {GroupDto}
+     * @memberof UserDto
+     */
+    'group': GroupDto;
 }
 
 /**
@@ -2483,7 +2587,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async getUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUser(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.getUser']?.[index]?.url;
@@ -2495,7 +2599,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async modifyUser(modifyUserDto: ModifyUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async modifyUser(modifyUserDto: ModifyUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.modifyUser(modifyUserDto, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.modifyUser']?.[index]?.url;
@@ -2516,7 +2620,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUser(options?: any): AxiosPromise<User> {
+        getUser(options?: any): AxiosPromise<UserDto> {
             return localVarFp.getUser(options).then((request) => request(axios, basePath));
         },
         /**
@@ -2525,7 +2629,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        modifyUser(modifyUserDto: ModifyUserDto, options?: any): AxiosPromise<User> {
+        modifyUser(modifyUserDto: ModifyUserDto, options?: any): AxiosPromise<UserDto> {
             return localVarFp.modifyUser(modifyUserDto, options).then((request) => request(axios, basePath));
         },
     };
