@@ -71,7 +71,7 @@ export interface CleaningPlan {
      * @type {Group}
      * @memberof CleaningPlan
      */
-    'groups'?: Group;
+    'group'?: Group;
 }
 /**
  * 
@@ -161,6 +161,31 @@ export type CreateItemDtoQuantityTypeEnum = typeof CreateItemDtoQuantityTypeEnum
 /**
  * 
  * @export
+ * @interface CreateTaskDto
+ */
+export interface CreateTaskDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTaskDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTaskDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof CreateTaskDto
+     */
+    'user_ids': Array<number>;
+}
+/**
+ * 
+ * @export
  * @interface CreateUserDto
  */
 export interface CreateUserDto {
@@ -218,7 +243,7 @@ export interface Finance {
      * @type {Group}
      * @memberof Finance
      */
-    'groups'?: Group;
+    'group'?: Group;
 }
 /**
  * 
@@ -286,6 +311,12 @@ export interface Group {
      * @memberof Group
      */
     'shoppingList'?: ShoppingList;
+    /**
+     * 
+     * @type {CleaningPlan}
+     * @memberof Group
+     */
+    'cleaningPlan'?: CleaningPlan;
     /**
      * 
      * @type {Set<User>}
@@ -654,6 +685,142 @@ export interface Task {
      * @memberof Task
      */
     'currentOrderNumber'?: number;
+    /**
+     * 
+     * @type {Set<TasksHasUser>}
+     * @memberof Task
+     */
+    'taskHasUsers'?: Set<TasksHasUser>;
+}
+/**
+ * 
+ * @export
+ * @interface TaskDto
+ */
+export interface TaskDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof TaskDto
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaskDto
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaskDto
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaskDto
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaskDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaskDto
+     */
+    'recurrenceRule'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TaskDto
+     */
+    'done'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TaskDto
+     */
+    'currentOrderNumber'?: number;
+    /**
+     * 
+     * @type {Set<TasksHasUserDto>}
+     * @memberof TaskDto
+     */
+    'taskHasUser'?: Set<TasksHasUserDto>;
+}
+/**
+ * 
+ * @export
+ * @interface TasksHasUser
+ */
+export interface TasksHasUser {
+    /**
+     * 
+     * @type {TasksHasUserId}
+     * @memberof TasksHasUser
+     */
+    'id'?: TasksHasUserId;
+    /**
+     * 
+     * @type {Task}
+     * @memberof TasksHasUser
+     */
+    'task'?: Task;
+    /**
+     * 
+     * @type {User}
+     * @memberof TasksHasUser
+     */
+    'user'?: User;
+    /**
+     * 
+     * @type {number}
+     * @memberof TasksHasUser
+     */
+    'orderNumber'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface TasksHasUserDto
+ */
+export interface TasksHasUserDto {
+    /**
+     * 
+     * @type {UserDto}
+     * @memberof TasksHasUserDto
+     */
+    'user'?: UserDto;
+    /**
+     * 
+     * @type {number}
+     * @memberof TasksHasUserDto
+     */
+    'orderNumber'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface TasksHasUserId
+ */
+export interface TasksHasUserId {
+    /**
+     * 
+     * @type {number}
+     * @memberof TasksHasUserId
+     */
+    'tasksId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TasksHasUserId
+     */
+    'usersId'?: number;
 }
 /**
  * 
@@ -709,6 +876,12 @@ export interface User {
      * @memberof User
      */
     'group'?: Group;
+    /**
+     * 
+     * @type {Set<TasksHasUser>}
+     * @memberof User
+     */
+    'userHasTasks'?: Set<TasksHasUser>;
 }
 /**
  * 
@@ -2249,15 +2422,15 @@ export const TaskControllerApiAxiosParamCreator = function (configuration?: Conf
         /**
          * 
          * @param {string} groupId 
-         * @param {Task} task 
+         * @param {CreateTaskDto} createTaskDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTask: async (groupId: string, task: Task, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createTask: async (groupId: string, createTaskDto: CreateTaskDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'groupId' is not null or undefined
             assertParamExists('createTask', 'groupId', groupId)
-            // verify required parameter 'task' is not null or undefined
-            assertParamExists('createTask', 'task', task)
+            // verify required parameter 'createTaskDto' is not null or undefined
+            assertParamExists('createTask', 'createTaskDto', createTaskDto)
             const localVarPath = `/groups/{group_id}/tasks`
                 .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2278,7 +2451,7 @@ export const TaskControllerApiAxiosParamCreator = function (configuration?: Conf
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(task, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createTaskDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2448,12 +2621,12 @@ export const TaskControllerApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} groupId 
-         * @param {Task} task 
+         * @param {CreateTaskDto} createTaskDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createTask(groupId: string, task: Task, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Task>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createTask(groupId, task, options);
+        async createTask(groupId: string, createTaskDto: CreateTaskDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TaskDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createTask(groupId, createTaskDto, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['TaskControllerApi.createTask']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -2523,12 +2696,12 @@ export const TaskControllerApiFactory = function (configuration?: Configuration,
         /**
          * 
          * @param {string} groupId 
-         * @param {Task} task 
+         * @param {CreateTaskDto} createTaskDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTask(groupId: string, task: Task, options?: any): AxiosPromise<Task> {
-            return localVarFp.createTask(groupId, task, options).then((request) => request(axios, basePath));
+        createTask(groupId: string, createTaskDto: CreateTaskDto, options?: any): AxiosPromise<TaskDto> {
+            return localVarFp.createTask(groupId, createTaskDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2583,13 +2756,13 @@ export class TaskControllerApi extends BaseAPI {
     /**
      * 
      * @param {string} groupId 
-     * @param {Task} task 
+     * @param {CreateTaskDto} createTaskDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TaskControllerApi
      */
-    public createTask(groupId: string, task: Task, options?: AxiosRequestConfig) {
-        return TaskControllerApiFp(this.configuration).createTask(groupId, task, options).then((request) => request(this.axios, this.basePath));
+    public createTask(groupId: string, createTaskDto: CreateTaskDto, options?: AxiosRequestConfig) {
+        return TaskControllerApiFp(this.configuration).createTask(groupId, createTaskDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
