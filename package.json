@@ -3,12 +3,12 @@
     "axios": "^1.6.1"
   },
   "name": "home-mates-api",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A typescript adapter for our home-mate project",
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "npx @openapitools/openapi-generator-cli generate -i ./openapi.json -o . -g typescript-axios --ignore-file-override"
+    "generate": "npx @openapitools/openapi-generator-cli generate -i ./openapi.json -o . -g typescript-axios"
   },
   "repository": {
     "type": "git",
