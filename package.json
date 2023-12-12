@@ -3,7 +3,7 @@
     "axios": "^1.6.1"
   },
   "name": "home-mates-api",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A typescript adapter for our home-mate project",
   "devDependencies": {},
   "scripts": {
