@@ -143,6 +143,43 @@ export interface CategoryDto {
 /**
  * 
  * @export
+ * @interface CategoryNoRelationsDto
+ */
+export interface CategoryNoRelationsDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof CategoryNoRelationsDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryNoRelationsDto
+     */
+    'createTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryNoRelationsDto
+     */
+    'updateTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryNoRelationsDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryNoRelationsDto
+     */
+    'type': string;
+}
+/**
+ * 
+ * @export
  * @interface CleaningPlan
  */
 export interface CleaningPlan {
@@ -271,6 +308,12 @@ export interface CreateItemDto {
      * @memberof CreateItemDto
      */
     'done'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateItemDto
+     */
+    'category_id': number;
 }
 
 export const CreateItemDtoQuantityTypeEnum = {
@@ -307,6 +350,12 @@ export interface CreateTaskDto {
      * @memberof CreateTaskDto
      */
     'user_ids': Array<number>;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTaskDto
+     */
+    'category_id': number;
 }
 /**
  * 
@@ -634,6 +683,12 @@ export interface Item {
 export interface ItemDto {
     /**
      * 
+     * @type {CategoryNoRelationsDto}
+     * @memberof ItemDto
+     */
+    'category': CategoryNoRelationsDto;
+    /**
+     * 
      * @type {number}
      * @memberof ItemDto
      */
@@ -944,6 +999,12 @@ export interface TaskDto {
      * @memberof TaskDto
      */
     'taskHasUser'?: Set<TasksHasUserDto>;
+    /**
+     * 
+     * @type {CategoryNoRelationsDto}
+     * @memberof TaskDto
+     */
+    'category': CategoryNoRelationsDto;
 }
 /**
  * 
