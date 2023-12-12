@@ -45,6 +45,104 @@ export interface AddUserToGroupForm {
 /**
  * 
  * @export
+ * @interface Category
+ */
+export interface Category {
+    /**
+     * 
+     * @type {number}
+     * @memberof Category
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Category
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Category
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Category
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Category
+     */
+    'type'?: string;
+    /**
+     * 
+     * @type {Set<Item>}
+     * @memberof Category
+     */
+    'items'?: Set<Item>;
+    /**
+     * 
+     * @type {Set<Task>}
+     * @memberof Category
+     */
+    'tasks'?: Set<Task>;
+}
+/**
+ * 
+ * @export
+ * @interface CategoryDto
+ */
+export interface CategoryDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof CategoryDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryDto
+     */
+    'createTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryDto
+     */
+    'updateTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CategoryDto
+     */
+    'type': string;
+    /**
+     * 
+     * @type {Set<ItemDto>}
+     * @memberof CategoryDto
+     */
+    'items'?: Set<ItemDto>;
+    /**
+     * 
+     * @type {Set<TaskDto>}
+     * @memberof CategoryDto
+     */
+    'tasks'?: Set<TaskDto>;
+}
+/**
+ * 
+ * @export
  * @interface CleaningPlan
  */
 export interface CleaningPlan {
@@ -73,6 +171,33 @@ export interface CleaningPlan {
      */
     'group'?: Group;
 }
+/**
+ * 
+ * @export
+ * @interface CreateCategoryDto
+ */
+export interface CreateCategoryDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCategoryDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCategoryDto
+     */
+    'type': CreateCategoryDtoTypeEnum;
+}
+
+export const CreateCategoryDtoTypeEnum = {
+    Cleaning: 'CLEANING',
+    Shopping: 'SHOPPING'
+} as const;
+
+export type CreateCategoryDtoTypeEnum = typeof CreateCategoryDtoTypeEnum[keyof typeof CreateCategoryDtoTypeEnum];
+
 /**
  * 
  * @export
@@ -323,6 +448,12 @@ export interface Group {
      * @memberof Group
      */
     'users'?: Set<User>;
+    /**
+     * 
+     * @type {Set<Invitation>}
+     * @memberof Group
+     */
+    'invitations'?: Set<Invitation>;
 }
 /**
  * 
@@ -378,6 +509,55 @@ export interface GroupDto {
      * @memberof GroupDto
      */
     'postalCode': string;
+}
+/**
+ * 
+ * @export
+ * @interface Invitation
+ */
+export interface Invitation {
+    /**
+     * 
+     * @type {number}
+     * @memberof Invitation
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Invitation
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Invitation
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Invitation
+     */
+    'token'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Invitation
+     */
+    'expirationDate'?: string;
+    /**
+     * 
+     * @type {Group}
+     * @memberof Invitation
+     */
+    'livingGroup'?: Group;
+    /**
+     * 
+     * @type {Group}
+     * @memberof Invitation
+     */
+    'livingGroups'?: Group;
 }
 /**
  * 
@@ -439,6 +619,12 @@ export interface Item {
      * @memberof Item
      */
     'itemscol'?: string;
+    /**
+     * 
+     * @type {Category}
+     * @memberof Item
+     */
+    'category'?: Category;
 }
 /**
  * 
@@ -691,6 +877,12 @@ export interface Task {
      * @memberof Task
      */
     'taskHasUsers'?: Set<TasksHasUser>;
+    /**
+     * 
+     * @type {Category}
+     * @memberof Task
+     */
+    'category'?: Category;
 }
 /**
  * 
@@ -1104,6 +1296,193 @@ export class AuthApi extends BaseAPI {
     }
 }
 
+
+
+/**
+ * CategoryApi - axios parameter creator
+ * @export
+ */
+export const CategoryApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateCategoryDto} createCategoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCategory: async (createCategoryDto: CreateCategoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createCategoryDto' is not null or undefined
+            assertParamExists('createCategory', 'createCategoryDto', createCategoryDto)
+            const localVarPath = `/categories`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createCategoryDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {GetCategoriesByTypeTypeEnum} type 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCategoriesByType: async (type: GetCategoriesByTypeTypeEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'type' is not null or undefined
+            assertParamExists('getCategoriesByType', 'type', type)
+            const localVarPath = `/categories/type/{type}`
+                .replace(`{${"type"}}`, encodeURIComponent(String(type)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CategoryApi - functional programming interface
+ * @export
+ */
+export const CategoryApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CategoryApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateCategoryDto} createCategoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createCategory(createCategoryDto: CreateCategoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCategory(createCategoryDto, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CategoryApi.createCategory']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {GetCategoriesByTypeTypeEnum} type 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCategoriesByType(type: GetCategoriesByTypeTypeEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CategoryDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCategoriesByType(type, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CategoryApi.getCategoriesByType']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CategoryApi - factory interface
+ * @export
+ */
+export const CategoryApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CategoryApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateCategoryDto} createCategoryDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCategory(createCategoryDto: CreateCategoryDto, options?: any): AxiosPromise<CategoryDto> {
+            return localVarFp.createCategory(createCategoryDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {GetCategoriesByTypeTypeEnum} type 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCategoriesByType(type: GetCategoriesByTypeTypeEnum, options?: any): AxiosPromise<Array<CategoryDto>> {
+            return localVarFp.getCategoriesByType(type, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CategoryApi - object-oriented interface
+ * @export
+ * @class CategoryApi
+ * @extends {BaseAPI}
+ */
+export class CategoryApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateCategoryDto} createCategoryDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CategoryApi
+     */
+    public createCategory(createCategoryDto: CreateCategoryDto, options?: AxiosRequestConfig) {
+        return CategoryApiFp(this.configuration).createCategory(createCategoryDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GetCategoriesByTypeTypeEnum} type 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CategoryApi
+     */
+    public getCategoriesByType(type: GetCategoriesByTypeTypeEnum, options?: AxiosRequestConfig) {
+        return CategoryApiFp(this.configuration).getCategoriesByType(type, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+/**
+ * @export
+ */
+export const GetCategoriesByTypeTypeEnum = {
+    Cleaning: 'CLEANING',
+    Shopping: 'SHOPPING'
+} as const;
+export type GetCategoriesByTypeTypeEnum = typeof GetCategoriesByTypeTypeEnum[keyof typeof GetCategoriesByTypeTypeEnum];
 
 
 /**
