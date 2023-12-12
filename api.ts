@@ -2414,10 +2414,10 @@ export class ItemApi extends BaseAPI {
 
 
 /**
- * TaskControllerApi - axios parameter creator
+ * TaskApi - axios parameter creator
  * @export
  */
-export const TaskControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const TaskApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -2431,7 +2431,7 @@ export const TaskControllerApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('createTask', 'groupId', groupId)
             // verify required parameter 'createTaskDto' is not null or undefined
             assertParamExists('createTask', 'createTaskDto', createTaskDto)
-            const localVarPath = `/groups/{group_id}/tasks`
+            const localVarPath = `/groups/{group_id}/cleaning/tasks`
                 .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2470,7 +2470,7 @@ export const TaskControllerApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('deleteTask', 'id', id)
             // verify required parameter 'groupId' is not null or undefined
             assertParamExists('deleteTask', 'groupId', groupId)
-            const localVarPath = `/groups/{group_id}/tasks/{id}`
+            const localVarPath = `/groups/{group_id}/cleaning/tasks/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2497,14 +2497,18 @@ export const TaskControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
+         * @param {number} id 
          * @param {string} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllTasks: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getTaskById: async (id: number, groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getTaskById', 'id', id)
             // verify required parameter 'groupId' is not null or undefined
-            assertParamExists('getAllTasks', 'groupId', groupId)
-            const localVarPath = `/groups/{group_id}/tasks`
+            assertParamExists('getTaskById', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/cleaning/tasks/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2530,18 +2534,14 @@ export const TaskControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {number} id 
          * @param {string} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTaskById: async (id: number, groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getTaskById', 'id', id)
+        getTasks: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'groupId' is not null or undefined
-            assertParamExists('getTaskById', 'groupId', groupId)
-            const localVarPath = `/groups/{group_id}/tasks/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+            assertParamExists('getTasks', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/cleaning/tasks`
                 .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2580,7 +2580,7 @@ export const TaskControllerApiAxiosParamCreator = function (configuration?: Conf
             assertParamExists('updateTask', 'groupId', groupId)
             // verify required parameter 'task' is not null or undefined
             assertParamExists('updateTask', 'task', task)
-            const localVarPath = `/groups/{group_id}/tasks/{id}`
+            const localVarPath = `/groups/{group_id}/cleaning/tasks/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2612,11 +2612,11 @@ export const TaskControllerApiAxiosParamCreator = function (configuration?: Conf
 };
 
 /**
- * TaskControllerApi - functional programming interface
+ * TaskApi - functional programming interface
  * @export
  */
-export const TaskControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = TaskControllerApiAxiosParamCreator(configuration)
+export const TaskApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TaskApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -2628,7 +2628,7 @@ export const TaskControllerApiFp = function(configuration?: Configuration) {
         async createTask(groupId: string, createTaskDto: CreateTaskDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TaskDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createTask(groupId, createTaskDto, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['TaskControllerApi.createTask']?.[index]?.url;
+            const operationBasePath = operationServerMap['TaskApi.createTask']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -2641,19 +2641,7 @@ export const TaskControllerApiFp = function(configuration?: Configuration) {
         async deleteTask(id: number, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTask(id, groupId, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['TaskControllerApi.deleteTask']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAllTasks(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Task>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllTasks(groupId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['TaskControllerApi.getAllTasks']?.[index]?.url;
+            const operationBasePath = operationServerMap['TaskApi.deleteTask']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -2666,7 +2654,19 @@ export const TaskControllerApiFp = function(configuration?: Configuration) {
         async getTaskById(id: number, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Task>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getTaskById(id, groupId, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['TaskControllerApi.getTaskById']?.[index]?.url;
+            const operationBasePath = operationServerMap['TaskApi.getTaskById']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTasks(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TaskDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTasks(groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TaskApi.getTasks']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -2680,18 +2680,18 @@ export const TaskControllerApiFp = function(configuration?: Configuration) {
         async updateTask(id: number, groupId: string, task: Task, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Task>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateTask(id, groupId, task, options);
             const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['TaskControllerApi.updateTask']?.[index]?.url;
+            const operationBasePath = operationServerMap['TaskApi.updateTask']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
 };
 
 /**
- * TaskControllerApi - factory interface
+ * TaskApi - factory interface
  * @export
  */
-export const TaskControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = TaskControllerApiFp(configuration)
+export const TaskApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TaskApiFp(configuration)
     return {
         /**
          * 
@@ -2715,15 +2715,6 @@ export const TaskControllerApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
-         * @param {string} groupId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllTasks(groupId: string, options?: any): AxiosPromise<Array<Task>> {
-            return localVarFp.getAllTasks(groupId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @param {number} id 
          * @param {string} groupId 
          * @param {*} [options] Override http request option.
@@ -2731,6 +2722,15 @@ export const TaskControllerApiFactory = function (configuration?: Configuration,
          */
         getTaskById(id: number, groupId: string, options?: any): AxiosPromise<Task> {
             return localVarFp.getTaskById(id, groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTasks(groupId: string, options?: any): AxiosPromise<Array<TaskDto>> {
+            return localVarFp.getTasks(groupId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2747,22 +2747,22 @@ export const TaskControllerApiFactory = function (configuration?: Configuration,
 };
 
 /**
- * TaskControllerApi - object-oriented interface
+ * TaskApi - object-oriented interface
  * @export
- * @class TaskControllerApi
+ * @class TaskApi
  * @extends {BaseAPI}
  */
-export class TaskControllerApi extends BaseAPI {
+export class TaskApi extends BaseAPI {
     /**
      * 
      * @param {string} groupId 
      * @param {CreateTaskDto} createTaskDto 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof TaskControllerApi
+     * @memberof TaskApi
      */
     public createTask(groupId: string, createTaskDto: CreateTaskDto, options?: AxiosRequestConfig) {
-        return TaskControllerApiFp(this.configuration).createTask(groupId, createTaskDto, options).then((request) => request(this.axios, this.basePath));
+        return TaskApiFp(this.configuration).createTask(groupId, createTaskDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2771,21 +2771,10 @@ export class TaskControllerApi extends BaseAPI {
      * @param {string} groupId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof TaskControllerApi
+     * @memberof TaskApi
      */
     public deleteTask(id: number, groupId: string, options?: AxiosRequestConfig) {
-        return TaskControllerApiFp(this.configuration).deleteTask(id, groupId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} groupId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TaskControllerApi
-     */
-    public getAllTasks(groupId: string, options?: AxiosRequestConfig) {
-        return TaskControllerApiFp(this.configuration).getAllTasks(groupId, options).then((request) => request(this.axios, this.basePath));
+        return TaskApiFp(this.configuration).deleteTask(id, groupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2794,10 +2783,21 @@ export class TaskControllerApi extends BaseAPI {
      * @param {string} groupId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof TaskControllerApi
+     * @memberof TaskApi
      */
     public getTaskById(id: number, groupId: string, options?: AxiosRequestConfig) {
-        return TaskControllerApiFp(this.configuration).getTaskById(id, groupId, options).then((request) => request(this.axios, this.basePath));
+        return TaskApiFp(this.configuration).getTaskById(id, groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaskApi
+     */
+    public getTasks(groupId: string, options?: AxiosRequestConfig) {
+        return TaskApiFp(this.configuration).getTasks(groupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2807,10 +2807,10 @@ export class TaskControllerApi extends BaseAPI {
      * @param {Task} task 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof TaskControllerApi
+     * @memberof TaskApi
      */
     public updateTask(id: number, groupId: string, task: Task, options?: AxiosRequestConfig) {
-        return TaskControllerApiFp(this.configuration).updateTask(id, groupId, task, options).then((request) => request(this.axios, this.basePath));
+        return TaskApiFp(this.configuration).updateTask(id, groupId, task, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
