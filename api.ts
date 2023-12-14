@@ -601,12 +601,43 @@ export interface Invitation {
      * @memberof Invitation
      */
     'livingGroup'?: Group;
+}
+/**
+ * 
+ * @export
+ * @interface InvitationDto
+ */
+export interface InvitationDto {
     /**
      * 
-     * @type {Group}
-     * @memberof Invitation
+     * @type {number}
+     * @memberof InvitationDto
      */
-    'livingGroups'?: Group;
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvitationDto
+     */
+    'createTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvitationDto
+     */
+    'updateTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvitationDto
+     */
+    'token': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvitationDto
+     */
+    'expirationDate'?: string;
 }
 /**
  * 
@@ -2521,7 +2552,7 @@ export const InvitationApiAxiosParamCreator = function (configuration?: Configur
         createInvitation: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'groupId' is not null or undefined
             assertParamExists('createInvitation', 'groupId', groupId)
-            const localVarPath = `/group/{group_id}/invitation/create`
+            const localVarPath = `/groups/{group_id}/invitation`
                 .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2531,6 +2562,43 @@ export const InvitationApiAxiosParamCreator = function (configuration?: Configur
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInvitations: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getInvitations', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/invitation`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -2577,10 +2645,22 @@ export const InvitationApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createInvitation(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Invitation>> {
+        async createInvitation(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvitationDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createInvitation(groupId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['InvitationApi.createInvitation']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getInvitations(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InvitationDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getInvitations(groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['InvitationApi.getInvitations']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
@@ -2608,8 +2688,17 @@ export const InvitationApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createInvitation(groupId: string, options?: any): AxiosPromise<Invitation> {
+        createInvitation(groupId: string, options?: any): AxiosPromise<InvitationDto> {
             return localVarFp.createInvitation(groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInvitations(groupId: string, options?: any): AxiosPromise<Array<InvitationDto>> {
+            return localVarFp.getInvitations(groupId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2641,6 +2730,17 @@ export class InvitationApi extends BaseAPI {
      */
     public createInvitation(groupId: string, options?: AxiosRequestConfig) {
         return InvitationApiFp(this.configuration).createInvitation(groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InvitationApi
+     */
+    public getInvitations(groupId: string, options?: AxiosRequestConfig) {
+        return InvitationApiFp(this.configuration).getInvitations(groupId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
