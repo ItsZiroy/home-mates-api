@@ -90,6 +90,12 @@ export interface Category {
      * @memberof Category
      */
     'tasks'?: Set<Task>;
+    /**
+     * 
+     * @type {Set<Transaction>}
+     * @memberof Category
+     */
+    'transactions'?: Set<Transaction>;
 }
 /**
  * 
@@ -230,7 +236,8 @@ export interface CreateCategoryDto {
 
 export const CreateCategoryDtoTypeEnum = {
     Cleaning: 'CLEANING',
-    Shopping: 'SHOPPING'
+    Shopping: 'SHOPPING',
+    Finance: 'FINANCE'
 } as const;
 
 export type CreateCategoryDtoTypeEnum = typeof CreateCategoryDtoTypeEnum[keyof typeof CreateCategoryDtoTypeEnum];
@@ -360,6 +367,77 @@ export interface CreateTaskDto {
 /**
  * 
  * @export
+ * @interface CreateTransactionDto
+ */
+export interface CreateTransactionDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTransactionDto
+     */
+    'amount'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTransactionDto
+     */
+    'currency': CreateTransactionDtoCurrencyEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateTransactionDto
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTransactionDto
+     */
+    'category_id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTransactionDto
+     */
+    'user_id': number;
+}
+
+export const CreateTransactionDtoCurrencyEnum = {
+    Eur: 'EUR',
+    Usd: 'USD',
+    Gbp: 'GBP',
+    Chf: 'CHF',
+    Jpy: 'JPY',
+    Aud: 'AUD',
+    Cad: 'CAD',
+    Nzd: 'NZD',
+    Hkd: 'HKD',
+    Sgd: 'SGD',
+    Sek: 'SEK',
+    Dkk: 'DKK',
+    Pln: 'PLN',
+    Nok: 'NOK',
+    Huf: 'HUF',
+    Czk: 'CZK',
+    Ils: 'ILS',
+    Mxn: 'MXN',
+    Brl: 'BRL',
+    Myr: 'MYR',
+    Rub: 'RUB',
+    Thb: 'THB',
+    Try: 'TRY',
+    Idr: 'IDR',
+    Krw: 'KRW',
+    Inr: 'INR',
+    Php: 'PHP',
+    Zar: 'ZAR'
+} as const;
+
+export type CreateTransactionDtoCurrencyEnum = typeof CreateTransactionDtoCurrencyEnum[keyof typeof CreateTransactionDtoCurrencyEnum];
+
+/**
+ * 
+ * @export
  * @interface CreateUserDto
  */
 export interface CreateUserDto {
@@ -418,6 +496,12 @@ export interface Finance {
      * @memberof Finance
      */
     'group'?: Group;
+    /**
+     * 
+     * @type {Set<Transaction>}
+     * @memberof Finance
+     */
+    'transactions'?: Set<Transaction>;
 }
 /**
  * 
@@ -491,6 +575,12 @@ export interface Group {
      * @memberof Group
      */
     'cleaningPlan'?: CleaningPlan;
+    /**
+     * 
+     * @type {Finance}
+     * @memberof Group
+     */
+    'finance'?: Finance;
     /**
      * 
      * @type {Set<User>}
@@ -1109,6 +1199,128 @@ export interface TasksHasUserId {
 /**
  * 
  * @export
+ * @interface Transaction
+ */
+export interface Transaction {
+    /**
+     * 
+     * @type {number}
+     * @memberof Transaction
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Transaction
+     */
+    'createTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Transaction
+     */
+    'updateTime'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Transaction
+     */
+    'amount'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Transaction
+     */
+    'currency'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Transaction
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Transaction
+     */
+    'type'?: string;
+    /**
+     * 
+     * @type {User}
+     * @memberof Transaction
+     */
+    'user'?: User;
+    /**
+     * 
+     * @type {Finance}
+     * @memberof Transaction
+     */
+    'finance'?: Finance;
+    /**
+     * 
+     * @type {Category}
+     * @memberof Transaction
+     */
+    'category': Category;
+}
+/**
+ * 
+ * @export
+ * @interface TransactionDto
+ */
+export interface TransactionDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof TransactionDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransactionDto
+     */
+    'createTime': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransactionDto
+     */
+    'updateTime': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransactionDto
+     */
+    'amount'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransactionDto
+     */
+    'currency': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransactionDto
+     */
+    'description': string;
+    /**
+     * 
+     * @type {CategoryNoRelationsDto}
+     * @memberof TransactionDto
+     */
+    'category': CategoryNoRelationsDto;
+    /**
+     * 
+     * @type {UserDto}
+     * @memberof TransactionDto
+     */
+    'user'?: UserDto;
+}
+/**
+ * 
+ * @export
  * @interface User
  */
 export interface User {
@@ -1572,7 +1784,8 @@ export class CategoryApi extends BaseAPI {
  */
 export const GetCategoriesByTypeTypeEnum = {
     Cleaning: 'CLEANING',
-    Shopping: 'SHOPPING'
+    Shopping: 'SHOPPING',
+    Finance: 'FINANCE'
 } as const;
 export type GetCategoriesByTypeTypeEnum = typeof GetCategoriesByTypeTypeEnum[keyof typeof GetCategoriesByTypeTypeEnum];
 
@@ -1914,339 +2127,6 @@ export class FileControllerApi extends BaseAPI {
      */
     public updateFile(groupId: string, modelFile: ModelFile, options?: AxiosRequestConfig) {
         return FileControllerApiFp(this.configuration).updateFile(groupId, modelFile, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * FinanceControllerApi - axios parameter creator
- * @export
- */
-export const FinanceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {Finance} finance 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createFinance: async (groupId: string, finance: Finance, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'groupId' is not null or undefined
-            assertParamExists('createFinance', 'groupId', groupId)
-            // verify required parameter 'finance' is not null or undefined
-            assertParamExists('createFinance', 'finance', finance)
-            const localVarPath = `/groups/{group_id}/finances`
-                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication jwt required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(finance, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteFinance: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'groupId' is not null or undefined
-            assertParamExists('deleteFinance', 'groupId', groupId)
-            const localVarPath = `/groups/{group_id}/finances`
-                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication jwt required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllFinances: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'groupId' is not null or undefined
-            assertParamExists('getAllFinances', 'groupId', groupId)
-            const localVarPath = `/groups/{group_id}/finances`
-                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication jwt required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {Finance} finance 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateFinance: async (groupId: string, finance: Finance, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'groupId' is not null or undefined
-            assertParamExists('updateFinance', 'groupId', groupId)
-            // verify required parameter 'finance' is not null or undefined
-            assertParamExists('updateFinance', 'finance', finance)
-            const localVarPath = `/groups/{group_id}/finances`
-                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication jwt required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(finance, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * FinanceControllerApi - functional programming interface
- * @export
- */
-export const FinanceControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = FinanceControllerApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {Finance} finance 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createFinance(groupId: string, finance: Finance, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Finance>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createFinance(groupId, finance, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['FinanceControllerApi.createFinance']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteFinance(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteFinance(groupId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['FinanceControllerApi.deleteFinance']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAllFinances(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Finance>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllFinances(groupId, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['FinanceControllerApi.getAllFinances']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {Finance} finance 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateFinance(groupId: string, finance: Finance, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Finance>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFinance(groupId, finance, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['FinanceControllerApi.updateFinance']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-    }
-};
-
-/**
- * FinanceControllerApi - factory interface
- * @export
- */
-export const FinanceControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = FinanceControllerApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {Finance} finance 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createFinance(groupId: string, finance: Finance, options?: any): AxiosPromise<Finance> {
-            return localVarFp.createFinance(groupId, finance, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteFinance(groupId: string, options?: any): AxiosPromise<string> {
-            return localVarFp.deleteFinance(groupId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllFinances(groupId: string, options?: any): AxiosPromise<Array<Finance>> {
-            return localVarFp.getAllFinances(groupId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} groupId 
-         * @param {Finance} finance 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateFinance(groupId: string, finance: Finance, options?: any): AxiosPromise<Finance> {
-            return localVarFp.updateFinance(groupId, finance, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * FinanceControllerApi - object-oriented interface
- * @export
- * @class FinanceControllerApi
- * @extends {BaseAPI}
- */
-export class FinanceControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {string} groupId 
-     * @param {Finance} finance 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FinanceControllerApi
-     */
-    public createFinance(groupId: string, finance: Finance, options?: AxiosRequestConfig) {
-        return FinanceControllerApiFp(this.configuration).createFinance(groupId, finance, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} groupId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FinanceControllerApi
-     */
-    public deleteFinance(groupId: string, options?: AxiosRequestConfig) {
-        return FinanceControllerApiFp(this.configuration).deleteFinance(groupId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} groupId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FinanceControllerApi
-     */
-    public getAllFinances(groupId: string, options?: AxiosRequestConfig) {
-        return FinanceControllerApiFp(this.configuration).getAllFinances(groupId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} groupId 
-     * @param {Finance} finance 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FinanceControllerApi
-     */
-    public updateFinance(groupId: string, finance: Finance, options?: AxiosRequestConfig) {
-        return FinanceControllerApiFp(this.configuration).updateFinance(groupId, finance, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3580,6 +3460,344 @@ export class TaskApi extends BaseAPI {
      */
     public updateTask(id: number, groupId: string, task: Task, options?: AxiosRequestConfig) {
         return TaskApiFp(this.configuration).updateTask(id, groupId, task, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TransactionApi - axios parameter creator
+ * @export
+ */
+export const TransactionApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {CreateTransactionDto} createTransactionDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTransaction: async (groupId: string, createTransactionDto: CreateTransactionDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('createTransaction', 'groupId', groupId)
+            // verify required parameter 'createTransactionDto' is not null or undefined
+            assertParamExists('createTransaction', 'createTransactionDto', createTransactionDto)
+            const localVarPath = `/groups/{group_id}/finance/transactions`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createTransactionDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTransaction: async (id: number, groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteTransaction', 'id', id)
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('deleteTransaction', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/finance/transactions/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTransaction: async (id: string, groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getTransaction', 'id', id)
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getTransaction', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/finance/transactions/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTransactions: async (groupId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('getTransactions', 'groupId', groupId)
+            const localVarPath = `/groups/{group_id}/finance/transactions`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TransactionApi - functional programming interface
+ * @export
+ */
+export const TransactionApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TransactionApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {CreateTransactionDto} createTransactionDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createTransaction(groupId: string, createTransactionDto: CreateTransactionDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TransactionDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createTransaction(groupId, createTransactionDto, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransactionApi.createTransaction']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteTransaction(id: number, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTransaction(id, groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransactionApi.deleteTransaction']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTransaction(id: string, groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TransactionDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTransaction(id, groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransactionApi.getTransaction']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTransactions(groupId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TransactionDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTransactions(groupId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TransactionApi.getTransactions']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TransactionApi - factory interface
+ * @export
+ */
+export const TransactionApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TransactionApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {CreateTransactionDto} createTransactionDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTransaction(groupId: string, createTransactionDto: CreateTransactionDto, options?: any): AxiosPromise<TransactionDto> {
+            return localVarFp.createTransaction(groupId, createTransactionDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTransaction(id: number, groupId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteTransaction(id, groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTransaction(id: string, groupId: string, options?: any): AxiosPromise<TransactionDto> {
+            return localVarFp.getTransaction(id, groupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} groupId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTransactions(groupId: string, options?: any): AxiosPromise<Array<TransactionDto>> {
+            return localVarFp.getTransactions(groupId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TransactionApi - object-oriented interface
+ * @export
+ * @class TransactionApi
+ * @extends {BaseAPI}
+ */
+export class TransactionApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {CreateTransactionDto} createTransactionDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransactionApi
+     */
+    public createTransaction(groupId: string, createTransactionDto: CreateTransactionDto, options?: AxiosRequestConfig) {
+        return TransactionApiFp(this.configuration).createTransaction(groupId, createTransactionDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransactionApi
+     */
+    public deleteTransaction(id: number, groupId: string, options?: AxiosRequestConfig) {
+        return TransactionApiFp(this.configuration).deleteTransaction(id, groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransactionApi
+     */
+    public getTransaction(id: string, groupId: string, options?: AxiosRequestConfig) {
+        return TransactionApiFp(this.configuration).getTransaction(id, groupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} groupId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TransactionApi
+     */
+    public getTransactions(groupId: string, options?: AxiosRequestConfig) {
+        return TransactionApiFp(this.configuration).getTransactions(groupId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
