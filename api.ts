@@ -546,6 +546,12 @@ export interface EventDto {
      * @type {string}
      * @memberof EventDto
      */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EventDto
+     */
     'name': string;
     /**
      * 
@@ -614,25 +620,6 @@ export interface Finance {
      * @memberof Finance
      */
     'transactions'?: Set<Transaction>;
-}
-/**
- * 
- * @export
- * @interface GetEventsBetweenForm
- */
-export interface GetEventsBetweenForm {
-    /**
-     * 
-     * @type {string}
-     * @memberof GetEventsBetweenForm
-     */
-    'start'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetEventsBetweenForm
-     */
-    'end'?: string;
 }
 /**
  * 
@@ -1791,6 +1778,47 @@ export const CalendarApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @param {ModelString} groupId 
+         * @param {ModelString} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteEvent: async (groupId: ModelString, eventId: ModelString, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'groupId' is not null or undefined
+            assertParamExists('deleteEvent', 'groupId', groupId)
+            // verify required parameter 'eventId' is not null or undefined
+            assertParamExists('deleteEvent', 'eventId', eventId)
+            const localVarPath = `/groups/{group_id}/calendar/events/{event_id}`
+                .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)))
+                .replace(`{${"event_id"}}`, encodeURIComponent(String(eventId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ModelString} groupId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1828,15 +1856,18 @@ export const CalendarApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @param {ModelString} groupId 
-         * @param {GetEventsBetweenForm} form 
+         * @param {string} start 
+         * @param {string} end 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEventsBetween: async (groupId: ModelString, form: GetEventsBetweenForm, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getEventsBetween: async (groupId: ModelString, start: string, end: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'groupId' is not null or undefined
             assertParamExists('getEventsBetween', 'groupId', groupId)
-            // verify required parameter 'form' is not null or undefined
-            assertParamExists('getEventsBetween', 'form', form)
+            // verify required parameter 'start' is not null or undefined
+            assertParamExists('getEventsBetween', 'start', start)
+            // verify required parameter 'end' is not null or undefined
+            assertParamExists('getEventsBetween', 'end', end)
             const localVarPath = `/groups/{group_id}/calendar/events`
                 .replace(`{${"group_id"}}`, encodeURIComponent(String(groupId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1854,10 +1885,16 @@ export const CalendarApiAxiosParamCreator = function (configuration?: Configurat
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (form !== undefined) {
-                for (const [key, value] of Object.entries(form)) {
-                    localVarQueryParameter[key] = value;
-                }
+            if (start !== undefined) {
+                localVarQueryParameter['start'] = (start as any instanceof Date) ?
+                    (start as any).toISOString() :
+                    start;
+            }
+
+            if (end !== undefined) {
+                localVarQueryParameter['end'] = (end as any instanceof Date) ?
+                    (end as any).toISOString() :
+                    end;
             }
 
 
@@ -1888,10 +1925,23 @@ export const CalendarApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createEvent(groupId: ModelString, createEventDto: CreateEventDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+        async createEvent(groupId: ModelString, createEventDto: CreateEventDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createEvent(groupId, createEventDto, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['CalendarApi.createEvent']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ModelString} groupId 
+         * @param {ModelString} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteEvent(groupId: ModelString, eventId: ModelString, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteEvent(groupId, eventId, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CalendarApi.deleteEvent']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
@@ -1909,12 +1959,13 @@ export const CalendarApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {ModelString} groupId 
-         * @param {GetEventsBetweenForm} form 
+         * @param {string} start 
+         * @param {string} end 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEventsBetween(groupId: ModelString, form: GetEventsBetweenForm, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<EventDto>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getEventsBetween(groupId, form, options);
+        async getEventsBetween(groupId: ModelString, start: string, end: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<EventDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getEventsBetween(groupId, start, end, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['CalendarApi.getEventsBetween']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
@@ -1936,8 +1987,18 @@ export const CalendarApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createEvent(groupId: ModelString, createEventDto: CreateEventDto, options?: any): AxiosPromise<string> {
+        createEvent(groupId: ModelString, createEventDto: CreateEventDto, options?: any): AxiosPromise<EventDto> {
             return localVarFp.createEvent(groupId, createEventDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ModelString} groupId 
+         * @param {ModelString} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteEvent(groupId: ModelString, eventId: ModelString, options?: any): AxiosPromise<string> {
+            return localVarFp.deleteEvent(groupId, eventId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1951,12 +2012,13 @@ export const CalendarApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @param {ModelString} groupId 
-         * @param {GetEventsBetweenForm} form 
+         * @param {string} start 
+         * @param {string} end 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEventsBetween(groupId: ModelString, form: GetEventsBetweenForm, options?: any): AxiosPromise<Array<EventDto>> {
-            return localVarFp.getEventsBetween(groupId, form, options).then((request) => request(axios, basePath));
+        getEventsBetween(groupId: ModelString, start: string, end: string, options?: any): AxiosPromise<Array<EventDto>> {
+            return localVarFp.getEventsBetween(groupId, start, end, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1983,6 +2045,18 @@ export class CalendarApi extends BaseAPI {
     /**
      * 
      * @param {ModelString} groupId 
+     * @param {ModelString} eventId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CalendarApi
+     */
+    public deleteEvent(groupId: ModelString, eventId: ModelString, options?: AxiosRequestConfig) {
+        return CalendarApiFp(this.configuration).deleteEvent(groupId, eventId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ModelString} groupId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CalendarApi
@@ -1994,13 +2068,14 @@ export class CalendarApi extends BaseAPI {
     /**
      * 
      * @param {ModelString} groupId 
-     * @param {GetEventsBetweenForm} form 
+     * @param {string} start 
+     * @param {string} end 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CalendarApi
      */
-    public getEventsBetween(groupId: ModelString, form: GetEventsBetweenForm, options?: AxiosRequestConfig) {
-        return CalendarApiFp(this.configuration).getEventsBetween(groupId, form, options).then((request) => request(this.axios, this.basePath));
+    public getEventsBetween(groupId: ModelString, start: string, end: string, options?: AxiosRequestConfig) {
+        return CalendarApiFp(this.configuration).getEventsBetween(groupId, start, end, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
