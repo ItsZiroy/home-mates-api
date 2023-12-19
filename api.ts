@@ -291,7 +291,7 @@ export interface CreateEventDto {
      * @type {number}
      * @memberof CreateEventDto
      */
-    'category_id'?: number;
+    'category_id': number;
     /**
      * 
      * @type {string}
@@ -468,13 +468,19 @@ export interface CreateTransactionDto {
      * @type {number}
      * @memberof CreateTransactionDto
      */
-    'category_id': number;
+    'category_id'?: number;
     /**
      * 
      * @type {number}
      * @memberof CreateTransactionDto
      */
-    'user_id': number;
+    'creditor_id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTransactionDto
+     */
+    'debitor_id': number;
 }
 
 export const CreateTransactionDtoCurrencyEnum = {
@@ -1388,6 +1394,18 @@ export interface Transaction {
     'user'?: User;
     /**
      * 
+     * @type {User}
+     * @memberof Transaction
+     */
+    'creditor'?: User;
+    /**
+     * 
+     * @type {User}
+     * @memberof Transaction
+     */
+    'debitor'?: User;
+    /**
+     * 
      * @type {Finance}
      * @memberof Transaction
      */
@@ -1397,7 +1415,7 @@ export interface Transaction {
      * @type {Category}
      * @memberof Transaction
      */
-    'category': Category;
+    'category'?: Category;
 }
 /**
  * 
@@ -1446,13 +1464,25 @@ export interface TransactionDto {
      * @type {CategoryNoRelationsDto}
      * @memberof TransactionDto
      */
-    'category': CategoryNoRelationsDto;
+    'category'?: CategoryNoRelationsDto;
     /**
      * 
      * @type {UserDto}
      * @memberof TransactionDto
      */
     'user'?: UserDto;
+    /**
+     * 
+     * @type {UserDto}
+     * @memberof TransactionDto
+     */
+    'debitor': UserDto;
+    /**
+     * 
+     * @type {UserDto}
+     * @memberof TransactionDto
+     */
+    'creditor': UserDto;
 }
 /**
  * 
