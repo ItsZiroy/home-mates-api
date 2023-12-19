@@ -303,6 +303,12 @@ export interface CreateEventDto {
      * @type {string}
      * @memberof CreateEventDto
      */
+    'location'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEventDto
+     */
     'start': string;
     /**
      * 
@@ -559,6 +565,12 @@ export interface EventDto {
      * @memberof EventDto
      */
     'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EventDto
+     */
+    'location'?: string;
     /**
      * 
      * @type {string}
