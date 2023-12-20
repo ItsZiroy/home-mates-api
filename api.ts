@@ -285,7 +285,7 @@ export interface CreateEventDto {
      * @type {Array<number>}
      * @memberof CreateEventDto
      */
-    'user_ids': Array<number>;
+    'user_ids'?: Array<number>;
     /**
      * 
      * @type {number}
@@ -545,6 +545,18 @@ export interface CreateUserDto {
      * @type {string}
      * @memberof CreateUserDto
      */
+    'mood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserDto
+     */
+    'profilePictureUri'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserDto
+     */
     'password': string;
 }
 /**
@@ -594,7 +606,7 @@ export interface EventDto {
      * @type {Array<UserDto>}
      * @memberof EventDto
      */
-    'users'?: Array<UserDto>;
+    'users': Array<UserDto>;
     /**
      * 
      * @type {CategoryNoRelationsDto}
@@ -1096,6 +1108,24 @@ export interface ModifyUserDto {
      * @type {string}
      * @memberof ModifyUserDto
      */
+    'mood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModifyUserDto
+     */
+    'profilePictureUri'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModifyUserDto
+     */
+    'oldPassword'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ModifyUserDto
+     */
     'password'?: string;
 }
 /**
@@ -1311,7 +1341,7 @@ export interface TasksHasUserDto {
      * @type {UserDto}
      * @memberof TasksHasUserDto
      */
-    'user'?: UserDto;
+    'user': UserDto;
     /**
      * 
      * @type {number}
@@ -1534,6 +1564,18 @@ export interface User {
     'username'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof User
+     */
+    'profilePictureUri'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'mood'?: string;
+    /**
+     * 
      * @type {Group}
      * @memberof User
      */
@@ -1593,6 +1635,18 @@ export interface UserDto {
      * @memberof UserDto
      */
     'group'?: GroupDto;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    'mood'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    'profilePictureUri'?: string;
 }
 
 /**
@@ -4372,6 +4426,45 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @param {ModifyUserDto} modifyUserDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editUser: async (modifyUserDto: ModifyUserDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'modifyUserDto' is not null or undefined
+            assertParamExists('editUser', 'modifyUserDto', modifyUserDto)
+            const localVarPath = `/me`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(modifyUserDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4403,45 +4496,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @param {ModifyUserDto} modifyUserDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        modifyUser: async (modifyUserDto: ModifyUserDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'modifyUserDto' is not null or undefined
-            assertParamExists('modifyUser', 'modifyUserDto', modifyUserDto)
-            const localVarPath = `/me`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication jwt required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(modifyUserDto, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -4466,6 +4520,18 @@ export const UserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {ModifyUserDto} modifyUserDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editUser(modifyUserDto: ModifyUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editUser(modifyUserDto, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UserApi.editUser']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -4473,18 +4539,6 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUser(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.getUser']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {ModifyUserDto} modifyUserDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async modifyUser(modifyUserDto: ModifyUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.modifyUser(modifyUserDto, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['UserApi.modifyUser']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
     }
@@ -4508,20 +4562,20 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @param {ModifyUserDto} modifyUserDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editUser(modifyUserDto: ModifyUserDto, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.editUser(modifyUserDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         getUser(options?: any): AxiosPromise<UserDto> {
             return localVarFp.getUser(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {ModifyUserDto} modifyUserDto 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        modifyUser(modifyUserDto: ModifyUserDto, options?: any): AxiosPromise<UserDto> {
-            return localVarFp.modifyUser(modifyUserDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -4546,23 +4600,23 @@ export class UserApi extends BaseAPI {
 
     /**
      * 
+     * @param {ModifyUserDto} modifyUserDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public editUser(modifyUserDto: ModifyUserDto, options?: AxiosRequestConfig) {
+        return UserApiFp(this.configuration).editUser(modifyUserDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
     public getUser(options?: AxiosRequestConfig) {
         return UserApiFp(this.configuration).getUser(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {ModifyUserDto} modifyUserDto 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApi
-     */
-    public modifyUser(modifyUserDto: ModifyUserDto, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).modifyUser(modifyUserDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
