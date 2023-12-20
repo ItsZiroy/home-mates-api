@@ -1258,10 +1258,10 @@ export interface TaskDto {
     'currentOrderNumber'?: number;
     /**
      * 
-     * @type {Set<TasksHasUserDto>}
+     * @type {Array<TasksHasUserDto>}
      * @memberof TaskDto
      */
-    'taskHasUser'?: Set<TasksHasUserDto>;
+    'taskHasUser': Array<TasksHasUserDto>;
     /**
      * 
      * @type {CategoryNoRelationsDto}
